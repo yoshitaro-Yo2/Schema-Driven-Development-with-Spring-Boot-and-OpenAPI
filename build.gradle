@@ -38,3 +38,7 @@ task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.Gene
 			interfaceOnly: "true"
 	]
 }
+
+// compileJava を実行時に tasks buildSpringServer も実行される様設定
+// build/spring という形になる。
+compileJava.dependsOn tasks.buildSpringServer
