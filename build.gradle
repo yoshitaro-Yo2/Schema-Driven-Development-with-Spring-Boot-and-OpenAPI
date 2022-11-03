@@ -42,3 +42,5 @@ task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.Gene
 // compileJava を実行時に tasks buildSpringServer も実行される様設定
 // build/spring という形になる。
 compileJava.dependsOn tasks.buildSpringServer
+// 自動生成されたインターフェイスをimportさせるために sourceSet に自動生成されたソースディレクトリを追加
+sourceSets.main.java.srcDir "$buildDir/spring/src/main/java"
