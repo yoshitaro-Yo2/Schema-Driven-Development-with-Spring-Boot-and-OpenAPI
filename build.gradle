@@ -24,13 +24,18 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// JavaからDBにアクセスするのサポートするライブラリ
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	// OpenAPI Generator で生成されたコードを使用用
 	compileOnly 'io.swagger.core.v3:swagger-annotations:2.2.4'
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	// H2DBをブラウザで確認したい。
+	runtimeOnly 'com.h2database:h2'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 tasks.named('test') {
