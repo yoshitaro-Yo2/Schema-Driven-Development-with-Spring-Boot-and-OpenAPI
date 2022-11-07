@@ -4,12 +4,19 @@ plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'java'
+	// OpenAPI Generator
 	id "org.openapi.generator" version "6.2.1"
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+// lombok
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
 
 repositories {
 	mavenCentral()
@@ -19,19 +26,25 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// OpenAPI Generator で生成されたコードを使用用
 	compileOnly 'io.swagger.core.v3:swagger-annotations:2.2.4'
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
+// apiドキュメントの自動生成
 task buildApiDoc(type: GenerateTask){
 	generatorName = "html2"
 	inputSpec = "$rootDir/src/main/resources/api-schema.yaml".toString()
 	outputDir = "$buildDir/apidoc".toString()
 }
 
+// Spring コードの自動生成
 task buildSpringServer(type: GenerateTask) {
 	generatorName = "spring"
 	inputSpec = "$rootDir/src/main/resources/api-schema.yaml".toString()
@@ -44,7 +57,7 @@ task buildSpringServer(type: GenerateTask) {
 }
 
 // compileJava を実行時に tasks buildSpringServer も実行される様設定
-// build/spring という形になる。
+// build/spring という形になる。タスクの依存関係設定
 compileJava.dependsOn tasks.buildSpringServer
 // 自動生成されたインターフェイスをimportさせるために sourceSet に自動生成されたソースディレクトリを追加
 sourceSets.main.java.srcDir "$buildDir/spring/src/main/java"
