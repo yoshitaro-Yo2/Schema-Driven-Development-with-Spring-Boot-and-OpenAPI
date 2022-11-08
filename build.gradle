@@ -28,7 +28,7 @@ dependencies {
 	// JavaからDBアクセスを簡単にするOSS、O/Rマッピングツール
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	// OpenAPI Generator で生成されたコードを使用用
+	// OpenAPI Generator で生成されたコードを使用
 	compileOnly 'io.swagger.core.v3:swagger-annotations:2.2.4'
 	// lombok
 	compileOnly 'org.projectlombok:lombok'

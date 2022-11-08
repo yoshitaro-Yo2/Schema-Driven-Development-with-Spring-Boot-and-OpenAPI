@@ -20,7 +20,29 @@ paths:
     get:
       tags:
         - tasks
+      # メソッド名の設定
       operationId: showTask
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                # 参照先を指定
+                $ref: "#/components/schemas/TaskDTO"
+# component & $ref で再利用可能な記述をする
+components:
+  schemas:
+    TaskDTO:
+      type: object # {}で始まるjson オブジェクトを示す
+      properties:
+        id:
+          type: integer
+          format: int64 # long 型を表現
+          description: "タスクID"
+        title:
+          type: string
+          description: "タスクのタイトル"
+      required:
+        - id
+        - title
