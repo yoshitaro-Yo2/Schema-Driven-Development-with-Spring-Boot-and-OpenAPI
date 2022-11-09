@@ -38,6 +38,13 @@ paths:
               schema:
                 # 参照先を指定
                 $ref: "#/components/schemas/TaskDTO"
+        '404':
+          description: :NOT FOUND
+          content:
+            application/json:
+              schema:
+                # 参照先を指定
+                $ref: "#/components/schemas/ResourceNotFoundError"
 # component & $ref で再利用可能な記述をする
 components:
   schemas:
@@ -54,3 +61,17 @@ components:
       required:
         - id
         - title
+    ResourceNotFoundError:
+      description: "指定したリソースが存在しない"
+      type: object # {}で始まるjson オブジェクトを示す
+      properties:
+        title:
+          type: string
+          description: "エラーのタイトル"
+          default: "Resource Not Found"
+        detail:
+          type: string
+          description: "エラーの詳細"
+      required:
+        - title
+        - detail
