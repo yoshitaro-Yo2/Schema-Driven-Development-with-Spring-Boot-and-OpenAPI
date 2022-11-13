@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class CustomExceptionHandler {
     // Service クラスで発生した TaskEntityNotFoundException を catch する
-    //  自分で定義した TaskEntityNotFoundException が発生した時のハンドラーメソッドであることを示す
+    // 自分で定義した TaskEntityNotFoundException が発生した時のハンドラーメソッドであることを示す
     @ExceptionHandler(TaskEntityNotFoundException.class)
     public ResponseEntity<ResourceNotFoundError> handleTaskEntityNotFoundException (TaskEntityNotFoundException e) {
         ResourceNotFoundError error = new ResourceNotFoundError();

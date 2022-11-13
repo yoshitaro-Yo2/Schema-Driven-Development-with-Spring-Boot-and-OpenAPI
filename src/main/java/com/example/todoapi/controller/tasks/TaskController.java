@@ -2,9 +2,11 @@ package com.example.todoapi.controller.tasks;
 
 import com.example.todoapi.controller.TasksApi;
 import com.example.todoapi.model.TaskDTO;
+import com.example.todoapi.model.TaskForm;
 import com.example.todoapi.service.task.TaskEntity;
 import com.example.todoapi.service.task.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +23,16 @@ public class TaskController implements TasksApi {
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
         return ResponseEntity.ok(dto);
+    }
+
+    @Override
+    public ResponseEntity<TaskDTO> createTask(TaskForm form) {
+
+        TaskEntity entity = taskService.create(form.getTitle());
+        TaskDTO dto = new TaskDTO();
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 }
 

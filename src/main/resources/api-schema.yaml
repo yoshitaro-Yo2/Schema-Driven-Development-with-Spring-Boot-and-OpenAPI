@@ -16,8 +16,30 @@ paths:
       responses:
         '200':
           description: OK
+  /tasks/:
+    post:
+      summary: "タスク作成"
+      description: "タスクを新規作成します"
+      operationId: "createTask"
+      tags:
+        - tasks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskForm"
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskDTO"
   /tasks/{taskId}:
     get:
+      summary: "タスク取得"
+      description: "指定されたIDのTaskを一件取得します"
       tags:
         - tasks
       # メソッド名の設定
@@ -48,6 +70,14 @@ paths:
 # component & $ref で再利用可能な記述をする
 components:
   schemas:
+    TaskForm:
+      type: object
+      properties:
+        title:
+          type: string
+          description: "作成されるタスクのタイトル"
+      required:
+        - title
     TaskDTO:
       type: object # {}で始まるjson オブジェクトを示す
       properties:
