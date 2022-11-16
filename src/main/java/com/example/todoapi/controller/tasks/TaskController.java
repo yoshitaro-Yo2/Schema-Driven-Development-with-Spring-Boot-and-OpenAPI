@@ -23,9 +23,8 @@ public class TaskController implements TasksApi {
     public ResponseEntity<TaskDTO> showTask(Long taskId) {
 
         TaskEntity entity = taskService.find(taskId);
-        TaskDTO dto = new TaskDTO();
-        dto.setId(entity.getId());
-        dto.setTitle(entity.getTitle());
+        TaskDTO dto = toTaskDto(entity);
+
         return ResponseEntity.ok(dto);
     }
 
@@ -33,9 +32,7 @@ public class TaskController implements TasksApi {
     public ResponseEntity<TaskDTO> createTask(TaskForm form) {
 
         TaskEntity entity = taskService.create(form.getTitle());
-        TaskDTO dto = new TaskDTO();
-        dto.setId(entity.getId());
-        dto.setTitle(entity.getTitle());
+        TaskDTO dto = toTaskDto(entity);
         return ResponseEntity
                 .created(URI.create("/tasks/" + dto.getId()))
                 .body(dto);
@@ -47,15 +44,17 @@ public class TaskController implements TasksApi {
         var entityList = taskService.find();
         TaskLISTDTO dto = new TaskLISTDTO();
         var dtoList = entityList.stream()
-                        .map(taskEntity -> {
-                            var taskDTO = new TaskDTO();
-                            taskDTO.setId(taskEntity.getId());
-                            taskDTO.setTitle(taskEntity.getTitle());
-                            return taskDTO;
-                        })
+                        .map(TaskController::toTaskDto)
                         .collect(Collectors.toList());
         dto.setResults(dtoList);
         return ResponseEntity.ok(dto);
+    }
+
+    private static TaskDTO toTaskDto(TaskEntity taskEntity) {
+        var taskDTO = new TaskDTO();
+        taskDTO.setId(taskEntity.getId());
+        taskDTO.setTitle(taskEntity.getTitle());
+        return taskDTO;
     }
 }
 
