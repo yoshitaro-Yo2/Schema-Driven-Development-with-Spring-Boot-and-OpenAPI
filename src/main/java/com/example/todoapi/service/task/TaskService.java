@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +20,10 @@ public class TaskService {
     }
 
     public List<TaskEntity> find() {
-        return List.of(new TaskEntity(1L, "title"),
-                new TaskEntity(2L, "title2"));
+        return taskRepository.selectList()
+                .stream()
+                .map(record -> new TaskEntity(record.getId(), record.getTitle()))
+                .collect(Collectors.toList());
     }
 
     public TaskEntity create(String title) {
