@@ -14,8 +14,8 @@ public interface TaskRepository {
     @Select("SELECT id, title FROM tasks WHERE id = #{taskId}")
     Optional<TaskRecord> select(Long taskId);
 
-    @Select("SELECT id, title FROM tasks")
-    List<TaskRecord> selectList();
+    @Select("SELECT id, title FROM tasks LIMIT #{limit} OFFSET #{offset}")
+    List<TaskRecord> selectList(int limit, long offset);
 
     // MyBatis ではインサート処理の戻り値は void のみなので、作成されたレコードの値が欲しい得は @Options を使用
     @Options(useGeneratedKeys = true, keyProperty = "id")

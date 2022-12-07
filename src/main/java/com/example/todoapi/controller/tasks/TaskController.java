@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,13 +38,13 @@ public class TaskController implements TasksApi {
     }
 
     @Override
-    public ResponseEntity<TaskLISTDTO> listTasks() {
-
-        var entityList = taskService.find();
+    public ResponseEntity<TaskLISTDTO> listTasks(Integer limit, Long offset) {
+        var entityList = taskService.find(limit, offset);
         TaskLISTDTO dto = new TaskLISTDTO();
         var dtoList = entityList.stream()
                         .map(TaskController::toTaskDto)
                         .collect(Collectors.toList());
+
         dto.setResults(dtoList);
         return ResponseEntity.ok(dto);
     }
