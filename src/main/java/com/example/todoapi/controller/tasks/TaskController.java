@@ -1,6 +1,7 @@
 package com.example.todoapi.controller.tasks;
 
 import com.example.todoapi.controller.TasksApi;
+import com.example.todoapi.model.PageDTO;
 import com.example.todoapi.model.TaskDTO;
 import com.example.todoapi.model.TaskForm;
 import com.example.todoapi.model.TaskLISTDTO;
@@ -40,12 +41,18 @@ public class TaskController implements TasksApi {
     @Override
     public ResponseEntity<TaskLISTDTO> listTasks(Integer limit, Long offset) {
         var entityList = taskService.find(limit, offset);
-        TaskLISTDTO dto = new TaskLISTDTO();
+        var dto = new TaskLISTDTO();
+        var pageDTO = new PageDTO();
         var dtoList = entityList.stream()
                         .map(TaskController::toTaskDto)
                         .collect(Collectors.toList());
 
+        pageDTO.setLimit(limit);
+        pageDTO.setOffset(offset);
+        pageDTO.setSize(dtoList.size());
+
         dto.setResults(dtoList);
+        dto.setPage(pageDTO);
         return ResponseEntity.ok(dto);
     }
 
